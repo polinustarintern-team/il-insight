@@ -5,7 +5,7 @@ import QuestionTypeCard from '../../components/admin/CreateQuestion/QuestionType
 const CreateQuestionPage = () => {
     const handleSelect = (type) => {
         console.log('Selected type:', type);
-        // Navigate or open modal
+        window.location.href = '/admin/create-question/form';
     };
 
     const options = [
@@ -36,10 +36,10 @@ const CreateQuestionPage = () => {
             <div className="mb-8">
                 <h2 className="text-xl text-[#1e1b4b] font-normal">Let's start creating a form</h2>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
                 {options.map((option, idx) => (
-                    <QuestionTypeCard 
+                    <QuestionTypeCard
                         key={idx}
                         from={option.from}
                         to={option.to}
