@@ -6,6 +6,11 @@ import './assets/styles/global.css';
 import HomePage from './pages/user/Home/HomePage';
 import FeedbackPage from './pages/user/Feedback/FeedbackPage';
 import ThankYouPage from './pages/user/ThankYou/ThankYouPage';
+import UserDashboardPage from './pages/user/Dashboard/UserDashboardPage';
+import UserSummaryPage from './pages/user/Summary/UserSummaryPage';
+import UserSummaryDetailPage from './pages/user/Summary/UserSummaryDetailPage';
+import UserDetailQuestionPage from './pages/user/Summary/UserDetailQuestionPage';
+import UserFeedbackPage from './pages/user/Feedback/UserFeedbackPage';
 
 // Admin Pages
 import DashboardPage from './pages/admin/DashboardPage';
@@ -24,6 +29,12 @@ function App() {
   if (path === '/') component = <HomePage />;
   else if (path === '/feedback') component = <FeedbackPage />;
   else if (path === '/thank-you') component = <ThankYouPage />;
+  else if (path === '/user/dashboard') component = <UserDashboardPage />;
+  else if (path === '/user/summary') component = <UserSummaryPage />;
+  else if (path === '/user/summary/detail') component = <UserSummaryDetailPage />;
+  else if (path === '/user/summary/detail/question') component = <UserDetailQuestionPage />;
+  else if (path === '/user/feedback') component = <UserFeedbackPage role="Mentor" />;
+  else if (path === '/management/feedback') component = <UserFeedbackPage role="Management" />;
 
   // Admin Routes
   else if (path === '/admin/dashboard') component = <DashboardPage />;
