@@ -17,6 +17,8 @@ import DashboardPage from './pages/admin/DashboardPage';
 import SummaryPage from './pages/admin/SummaryPage';
 import DetailAnalysisPage from './pages/admin/DetailAnalysisPage';
 import CreateQuestionPage from './pages/admin/CreateQuestionPage';
+import CreateQuestionDetailPage from './pages/admin/CreateQuestionDetailPage';
+import FormBuilderPage from './pages/admin/FormBuilderPage';
 import UserDirectoryPage from './pages/admin/UserDirectoryPage';
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
   else if (path === '/admin/summary') component = <SummaryPage />;
   else if (path === '/admin/summary/detail') component = <DetailAnalysisPage />;
   else if (path === '/admin/create-question') component = <CreateQuestionPage />;
+  else if (path === '/admin/create-question/form') component = <CreateQuestionDetailPage />;
+  else if (path === '/admin/create-question/edit') component = <FormBuilderPage />;
   else if (path === '/admin/user-directory') component = <UserDirectoryPage />;
 
   // Default
