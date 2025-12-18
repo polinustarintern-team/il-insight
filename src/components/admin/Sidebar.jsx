@@ -12,14 +12,14 @@ const Sidebar = () => {
     ];
 
     return (
-        <aside className="w-64 bg-white h-screen flex flex-col border-r border-gray-100">
+        <aside className="w-64 bg-white h-screen flex flex-col border-r border-gray-100 fixed top-0 left-0 z-40">
             <div className="p-6 flex items-center gap-3">
                 <div className="items-center justify-center"><img
-                            src={logo}
-                            alt="IL Insight"
-                            className="h-10 w-auto"
-                          /></div>
-                
+                    src={logo}
+                    alt="IL Insight"
+                    className="h-10 w-auto"
+                /></div>
+
             </div>
 
             <nav className="flex-1 px-4 mt-6">
@@ -42,7 +42,7 @@ const Sidebar = () => {
                 </ul>
             </nav>
 
-            <div className="p-4 border-t border-gray-100">
+            <div className="mt-auto p-4 border-t border-gray-100">
                 <button className="flex items-center gap-3 px-4 py-3 text-gray-500 hover:text-red-600 transition-colors w-full">
                     <span className="text-xl">↪</span>
                     <span className="font-medium text-sm">Keluar</span>

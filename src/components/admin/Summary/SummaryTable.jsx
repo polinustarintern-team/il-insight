@@ -154,11 +154,6 @@ const SummaryTable = () => {
                     </tbody>
                 </table>
             </div>
-
-            {/* SCROLL BAR DUMMY */}
-            <div className="fixed right-2 top-1/2 h-48 w-1.5 bg-gray-200 rounded-full hidden md:block opacity-50">
-                <div className="h-20 w-full bg-[#1e1b4b] rounded-full mt-10"></div>
-            </div>
         </div>
     );
 };

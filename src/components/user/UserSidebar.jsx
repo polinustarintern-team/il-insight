@@ -10,7 +10,7 @@ const UserSidebar = () => {
     ];
 
     return (
-        <aside className="w-64 bg-white h-screen flex flex-col border-r border-gray-100">
+        <aside className="w-64 bg-white h-screen flex flex-col border-r border-gray-100 fixed top-0 left-0 z-40">
             <div className="p-6 flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-[#1e1b4b] flex items-center justify-center text-white font-bold">Q</div>
                 <span className="font-bold text-xl text-[#1e1b4b]">ILInsight</span>
@@ -36,7 +36,7 @@ const UserSidebar = () => {
                 </ul>
             </nav>
 
-            <div className="p-4 border-t border-gray-100">
+            <div className="mt-auto p-4 border-t border-gray-100">
                 <button className="flex items-center gap-3 px-4 py-3 text-gray-500 hover:text-red-600 transition-colors w-full">
                     <span className="text-xl">↪</span>
                     <span className="font-medium text-sm">Log out</span>

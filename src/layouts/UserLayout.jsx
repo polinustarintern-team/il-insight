@@ -4,11 +4,11 @@ import Header from '../components/admin/Header'; // Reusing Header from admin ba
 
 const UserLayout = ({ children, title, user = { name: 'Walid', role: 'Mentor' } }) => {
     return (
-        <div className="flex min-h-screen bg-white font-sans">
+        <div className="min-h-screen bg-white font-sans">
             <UserSidebar />
-            <div className="flex-1 flex flex-col">
+            <div className="ml-64 flex flex-col min-h-screen">
                 <Header title={title} user={user} />
-                <main className="flex-1 p-8">
+                <main className="flex-1 p-8 overflow-auto">
                     {children}
                 </main>
             </div>
