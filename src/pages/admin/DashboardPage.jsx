@@ -1,14 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../layouts/AdminLayout';
 import StatChart from '../../components/admin/Dashboard/StatChart';
 
 const DashboardPage = () => {
+  const [stats, setStats] = useState({
+    mentorStats: { percentage: 0 },
+    managementStats: { percentage: 0 }
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:5001/api/admin/dashboard/stats', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setStats(data);
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
   return (
     <AdminLayout title="Dashboard">
       {/* Welcome */}
       <div className="mb-16">
         <h2 className="text-2xl font-normal text-gray-800">
-          Welcome Admin !
+          Welcome {user.name || 'Admin'} !
         </h2>
       </div>
 
@@ -17,12 +49,14 @@ const DashboardPage = () => {
         <StatChart
           title="questions that have been handled"
           totalLabel="Mentor"
-          percentage={50}
+          percentage={stats.mentorStats?.percentage || 0}
+          loading={loading}
         />
         <StatChart
           title="questions that have been handled"
           totalLabel="Management"
-          percentage={50}
+          percentage={stats.managementStats?.percentage || 0}
+          loading={loading}
         />
       </div>
 

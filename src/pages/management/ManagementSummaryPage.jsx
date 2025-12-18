@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import UserLayout from '../../../layouts/UserLayout';
+import ManagementLayout from '../../layouts/ManagementLayout';
 
-const UserSummaryPage = () => {
+const ManagementSummaryPage = () => {
     const navigate = useNavigate();
     const [summaryData, setSummaryData] = useState({
         feedbackReceived: [],
@@ -84,23 +84,23 @@ const UserSummaryPage = () => {
 
     if (loading) {
         return (
-            <UserLayout title="Summary">
+            <ManagementLayout title="Summary">
                 <div className="flex items-center justify-center h-64">
                     <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#8b5cf6] border-t-transparent"></div>
                 </div>
-            </UserLayout>
+            </ManagementLayout>
         );
     }
 
     return (
-        <UserLayout title="Summary">
+        <ManagementLayout title="Summary">
             {/* Welcome Banner */}
             <div className="bg-gradient-to-r from-[#1e1b4b] to-[#312e81] rounded-3xl p-8 mb-8 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
 
                 <div className="relative z-10">
-                    <h2 className="text-2xl font-bold mb-2">Hi, {user.name || 'Mentor'}! 👋</h2>
+                    <h2 className="text-2xl font-bold mb-2">Hi, {user.name || 'Management'}! 👋</h2>
                     <p className="opacity-75 mb-6">Berikut adalah ringkasan feedback yang Anda terima dari rekan-rekan Anda.</p>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -237,8 +237,8 @@ const UserSummaryPage = () => {
                     </ul>
                 </div>
             </div>
-        </UserLayout>
+        </ManagementLayout>
     );
 };
 
-export default UserSummaryPage;
+export default ManagementSummaryPage;

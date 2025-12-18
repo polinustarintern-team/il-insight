@@ -1,6 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileModal = ({ isOpen, onClose, user }) => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/');
+        onClose();
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -42,7 +52,7 @@ const ProfileModal = ({ isOpen, onClose, user }) => {
                         />
                     </div>
                     <div>
-                        <label className="block text-gray-300 text-sm mb-2">Posision</label> {/* "Posision" as per design legacy typo or correct? Assuming typo but matching image */}
+                        <label className="block text-gray-300 text-sm mb-2">Position</label> {/* Fixed typo from Posision */}
                         <input
                             type="text"
                             className="w-full bg-white text-black rounded-xl px-4 py-3 outline-none"
@@ -75,8 +85,14 @@ const ProfileModal = ({ isOpen, onClose, user }) => {
                     </div>
                 </div>
 
-                {/* Save Button */}
-                <div className="flex justify-center pb-4">
+                {/* Save & Logout Buttons */}
+                <div className="flex justify-center gap-4 pb-4">
+                    <button
+                        onClick={handleLogout}
+                        className="bg-red-500/10 text-red-500 border border-red-500/20 px-8 py-3 rounded-lg font-medium hover:bg-red-500/20 transition-colors"
+                    >
+                        Log out
+                    </button>
                     <button className="bg-[#7c4dff] text-white px-12 py-3 rounded-lg font-medium hover:bg-[#651fff] transition-colors shadow-lg shadow-purple-500/30">
                         Save
                     </button>

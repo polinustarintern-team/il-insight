@@ -2,7 +2,9 @@ import React from 'react';
 import UserSidebar from '../components/user/UserSidebar';
 import Header from '../components/admin/Header'; // Reusing Header from admin based on visual similarity
 
-const UserLayout = ({ children, title, user = { name: 'Walid', role: 'Mentor' } }) => {
+const UserLayout = ({ children, title, user: propUser }) => {
+    const user = propUser || JSON.parse(localStorage.getItem('user')) || { name: 'User', role: 'Mentor' };
+
     return (
         <div className="min-h-screen bg-white font-sans">
             <UserSidebar />

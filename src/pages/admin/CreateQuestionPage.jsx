@@ -1,33 +1,39 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../layouts/AdminLayout';
 import QuestionTypeCard from '../../components/admin/CreateQuestion/QuestionTypeCard';
 
 const CreateQuestionPage = () => {
+    const navigate = useNavigate();
+
     const handleSelect = (type) => {
-        console.log('Selected type:', type);
-        window.location.href = '/admin/create-question/form';
+        navigate(`/admin/create-question/edit?type=${type}`);
     };
 
     const options = [
         {
             from: { type: 'mentor', label: 'Mentor' },
             to: { type: 'mentor', label: 'Mentor' },
-            description: 'Create Question Mentor Feedback'
+            description: 'Create Question Mentor Feedback',
+            formType: 'mentor_to_mentor'
         },
         {
             from: { type: 'management', label: 'Management' },
             to: { type: 'management', label: 'Management' },
-            description: 'Create Question Management feedback'
+            description: 'Create Question Management feedback',
+            formType: 'management_to_management'
         },
         {
             from: { type: 'management', label: 'Management' },
             to: { type: 'mentor', label: 'Mentor' },
-            description: 'Create Question Management Feedback to Mentor'
+            description: 'Create Question Management Feedback to Mentor',
+            formType: 'management_to_mentor'
         },
         {
             from: { type: 'mentor', label: 'Mentor' },
             to: { type: 'management', label: 'Management' },
-            description: 'Create Question Mentor Feedback to Management'
+            description: 'Create Question Mentor Feedback to Management',
+            formType: 'mentor_to_management'
         }
     ];
 
@@ -44,7 +50,7 @@ const CreateQuestionPage = () => {
                         from={option.from}
                         to={option.to}
                         description={option.description}
-                        onSelect={() => handleSelect(idx)}
+                        onSelect={() => handleSelect(option.formType)}
                     />
                 ))}
             </div>

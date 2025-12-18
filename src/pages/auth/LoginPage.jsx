@@ -5,13 +5,52 @@ import { Eye, EyeOff } from 'lucide-react';
 
 const LoginPage = () => {
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        navigate('/user/dashboard');
+        setError('');
+        setIsLoading(true);
+
+        try {
+            const response = await fetch('http://localhost:5001/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Login failed');
+            }
+
+            // Save to localStorage
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            // Redirect based on role
+            if (data.user.role === 'admin') {
+                navigate('/admin/dashboard');
+            } else if (data.user.role === 'mentor') {
+                navigate('/user/dashboard');
+            } else if (data.user.role === 'manajemen') {
+                navigate('/user/dashboard'); // Same path for all users
+            } else {
+                navigate('/user/dashboard'); // Default
+            }
+
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -28,19 +67,26 @@ const LoginPage = () => {
                     />
                 </div>
 
+                {/* Error Message */}
+                {error && (
+                    <div className="mb-6 rounded-lg bg-red-500/10 p-4 text-center text-sm font-medium text-red-500">
+                        {error}
+                    </div>
+                )}
+
                 {/* Form */}
                 <form onSubmit={handleLogin} className="space-y-10">
 
-                    {/* Email */}
+                    {/* Username */}
                     <div className="mx-auto max-w-[420px] space-y-2">
                         <label className="text-left block text-sm font-semibold text-white">
-                            Email
+                            Username
                         </label>
                         <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="walidyxz@gmail.com"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="walid"
                             required
                             className="w-full rounded-xl bg-[#D6D3D1] px-6 py-4 text-sm font-medium text-gray-900 placeholder-gray-600 focus:outline-none"
                         />
@@ -74,9 +120,10 @@ const LoginPage = () => {
                     <div className="pt-6 flex justify-center">
                         <button
                             type="submit"
-                            className="w-full max-w-[420px] rounded-full bg-white py-4 text-lg font-semibold text-[#0F0A1E] transition hover:bg-gray-100"
+                            disabled={isLoading}
+                            className="w-full max-w-[420px] rounded-full bg-white py-4 text-lg font-semibold text-[#0F0A1E] transition hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Log in
+                            {isLoading ? 'Logging in...' : 'Log in'}
                         </button>
                     </div>
                 </form>

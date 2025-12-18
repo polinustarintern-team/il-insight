@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import UserLayout from '../../../layouts/UserLayout';
-import DonutChart from '../../../components/user/DonutChart';
+import ManagementLayout from '../../layouts/ManagementLayout';
+import DonutChart from '../../components/user/DonutChart';
 
-const UserDashboardPage = () => {
+const ManagementDashboardPage = () => {
     const [stats, setStats] = useState({
         givenCount: 0,
         receivedCount: 0,
@@ -39,11 +39,11 @@ const UserDashboardPage = () => {
     }, []);
 
     return (
-        <UserLayout title="Dashboard">
+        <ManagementLayout title="Dashboard">
             {/* Welcome */}
             <div className="mb-8">
                 <h2 className="text-2xl font-normal text-gray-800">
-                    Welcome back, {user.name || 'Mentor'} !
+                    Welcome back, {user.name || 'Management'} !
                 </h2>
             </div>
 
@@ -85,8 +85,8 @@ const UserDashboardPage = () => {
                     />
                 </div>
             </div>
-        </UserLayout>
+        </ManagementLayout>
     );
 };
 
-export default UserDashboardPage;
+export default ManagementDashboardPage;

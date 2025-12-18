@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo-dark.png';
 
 const Sidebar = () => {
+    const navigate = useNavigate();
     const currentPath = window.location.pathname;
 
     const menus = [
@@ -10,6 +12,12 @@ const Sidebar = () => {
         { name: 'Buat Pertanyaan', icon: '📝', path: '/admin/create-question' },
         { name: 'Direktori Pengguna', icon: '👤', path: '/admin/user-directory' },
     ];
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/');
+    };
 
     return (
         <aside className="w-64 bg-white h-screen flex flex-col border-r border-gray-100 fixed top-0 left-0 z-40">
@@ -43,7 +51,10 @@ const Sidebar = () => {
             </nav>
 
             <div className="mt-auto p-4 border-t border-gray-100">
-                <button className="flex items-center gap-3 px-4 py-3 text-gray-500 hover:text-red-600 transition-colors w-full">
+                <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-3 px-4 py-3 text-gray-500 hover:text-red-600 transition-colors w-full"
+                >
                     <span className="text-xl">↪</span>
                     <span className="font-medium text-sm">Keluar</span>
                 </button>

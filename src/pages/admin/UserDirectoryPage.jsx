@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../layouts/AdminLayout';
 import UserListItem from '../../components/admin/UserDirectory/UserListItem';
 import UserProfileDetail from '../../components/admin/UserDirectory/UserProfileDetail';
@@ -6,19 +6,8 @@ import UserFormModal from '../../components/admin/UserDirectory/UserFormModal';
 import DeleteUserModal from '../../components/admin/UserDirectory/DeleteUserModal';
 
 const UserDirectoryPage = () => {
-    // Mock Data
-    const initialUsers = [
-        { id: 1, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'Reza11_', email: 'kurniawanreza11@gmail.com', division: 'Mentor', password: '1234567890', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-        { id: 2, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'Reza_Dev', email: 'reza.dev@example.com', division: 'Mentor', password: 'password123', avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-        { id: 3, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'RK_Tech', email: 'rk.tech@example.com', division: 'Mentor', password: 'securepass', avatar: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-        { id: 4, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'RezaTheMentor', email: 'reza.mentor@example.com', division: 'Mentor', password: 'mentorpass', avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-        { id: 5, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'Reza123', email: 'reza123@example.com', division: 'Mentor', password: '1234567890', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-        { id: 6, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'Reza_K', email: 'reza.k@example.com', division: 'Mentor', password: 'password', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-        { id: 7, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'RezaW', email: 'reza.w@example.com', division: 'Mentor', password: 'pass', avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-        { id: 8, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'Reza_Tech', email: 'reza.tech@example.com', division: 'Mentor', password: 'admin', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-    ];
-
-    const [users, setUsers] = useState(initialUsers);
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -26,36 +15,120 @@ const UserDirectoryPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedUserId, setSelectedUserId] = useState(null);
 
+    // Fetch users from API
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const fetchUsers = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:5001/api/users', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setUsers(data.users || []);
+                if (data.users && data.users.length > 0 && !selectedUserId) {
+                    setSelectedUserId(data.users[0].id);
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.username.toLowerCase().includes(searchQuery.toLowerCase())
+        (user.name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+        (user.username?.toLowerCase() || '').includes(searchQuery.toLowerCase())
     );
 
     const selectedUser = users.find(u => u.id === selectedUserId);
 
-    const handleCreateUser = (userData) => {
-        const newUser = {
-            id: users.length + 1,
-            ...userData,
-            username: userData.name.split(' ')[0] + '_New', // Auto-generate username for demo
-            avatar: ''
-        };
-        setUsers([...users, newUser]);
-        setIsCreateModalOpen(false);
-        setSelectedUserId(newUser.id);
+    const handleCreateUser = async (userData) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:5001/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setIsCreateModalOpen(false);
+                fetchUsers(); // Refresh list
+                setSelectedUserId(data.userId);
+            } else {
+                const data = await response.json();
+                alert(data.message || 'Gagal membuat user');
+            }
+        } catch (error) {
+            console.error('Error creating user:', error);
+            alert('Terjadi kesalahan');
+        }
     };
 
-    const handleUpdateUser = (userData) => {
-        setUsers(users.map(u => u.id === selectedUserId ? { ...u, ...userData } : u));
-        setIsUpdateModalOpen(false);
+    const handleUpdateUser = async (userData) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5001/api/users/${selectedUserId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                setIsUpdateModalOpen(false);
+                fetchUsers(); // Refresh list
+            } else {
+                const data = await response.json();
+                alert(data.message || 'Gagal update user');
+            }
+        } catch (error) {
+            console.error('Error updating user:', error);
+            alert('Terjadi kesalahan');
+        }
     };
 
-    const handleDeleteUser = () => {
-        const newUsers = users.filter(u => u.id !== selectedUserId);
-        setUsers(newUsers);
-        if (newUsers.length > 0) setSelectedUserId(newUsers[0].id);
-        else setSelectedUserId(null);
-        setIsDeleteModalOpen(false);
+    const handleDeleteUser = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5001/api/users/${selectedUserId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                setIsDeleteModalOpen(false);
+                const remainingUsers = users.filter(u => u.id !== selectedUserId);
+                if (remainingUsers.length > 0) {
+                    setSelectedUserId(remainingUsers[0].id);
+                } else {
+                    setSelectedUserId(null);
+                }
+                fetchUsers(); // Refresh list
+            } else {
+                const data = await response.json();
+                alert(data.message || 'Gagal menghapus user');
+            }
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            alert('Terjadi kesalahan');
+        }
     };
 
     return (
@@ -80,14 +153,20 @@ const UserDirectoryPage = () => {
 
                     {/* Scrollable List */}
                     <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar pb-20">
-                        {filteredUsers.map(user => (
-                            <UserListItem
-                                key={user.id}
-                                user={user}
-                                active={selectedUserId === user.id}
-                                onClick={() => setSelectedUserId(user.id)}
-                            />
-                        ))}
+                        {loading ? (
+                            <div className="text-center text-gray-500 py-8">Loading...</div>
+                        ) : filteredUsers.length === 0 ? (
+                            <div className="text-center text-gray-500 py-8">No users found</div>
+                        ) : (
+                            filteredUsers.map(user => (
+                                <UserListItem
+                                    key={user.id}
+                                    user={user}
+                                    active={selectedUserId === user.id}
+                                    onClick={() => setSelectedUserId(user.id)}
+                                />
+                            ))
+                        )}
                     </div>
 
                     {/* Add User Button (Fixed at bottom of list area) */}

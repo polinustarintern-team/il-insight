@@ -2,14 +2,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo-dark.png';
 
-const UserSidebar = () => {
+const ManagementSidebar = () => {
     const navigate = useNavigate();
     const currentPath = window.location.pathname;
 
     const menus = [
-        { name: 'Dashboard', icon: '⊞', path: '/user/dashboard' },
-        { name: 'Summary', icon: '📋', path: '/user/summary' },
-        { name: 'Feedback', icon: '💬', path: '/user/feedback' },
+        { name: 'Dashboard', icon: '⊞', path: '/management/dashboard' },
+        { name: 'Summary', icon: '📋', path: '/management/summary' },
+        { name: 'Feedback', icon: '💬', path: '/management/feedback' },
     ];
 
     const handleLogout = () => {
@@ -63,4 +63,4 @@ const UserSidebar = () => {
     );
 };
 
-export default UserSidebar;
+export default ManagementSidebar;
