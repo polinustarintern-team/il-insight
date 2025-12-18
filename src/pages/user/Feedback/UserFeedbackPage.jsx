@@ -41,6 +41,7 @@ const UserFeedbackPage = ({ role = 'Mentor' }) => {
                     title="Management to Management"
                     description="Management feedback question"
                     isDark={isManagementRole}
+                // path="/feedback/management-to-management" // Placeholder if needed
                 />
 
                 {/* Mentor to Mentor */}
@@ -48,6 +49,7 @@ const UserFeedbackPage = ({ role = 'Mentor' }) => {
                     title="Mentor to Mentor"
                     description="Mentor Feedback Question"
                     isDark={!isManagementRole}
+                    path="/feedback/mentor-to-mentor"
                 />
 
                 {/* Management to Mentor */}
@@ -55,6 +57,7 @@ const UserFeedbackPage = ({ role = 'Mentor' }) => {
                     title="Management to Mentor"
                     description="Management Feedback Question to Mentor"
                     isDark={isManagementRole}
+                // path="/feedback/management-to-mentor" // Placeholder
                 />
 
                 {/* Mentor to Management */}
@@ -62,6 +65,7 @@ const UserFeedbackPage = ({ role = 'Mentor' }) => {
                     title="Mentor to Management"
                     description="Mentor Feedback Question to Management"
                     isDark={!isManagementRole}
+                    path="/feedback/mentor-to-management"
                 />
             </div>
         </UserLayout>

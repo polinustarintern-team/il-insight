@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const FeedbackCategoryCard = ({ title, description, isDark }) => {
+const FeedbackCategoryCard = ({ title, description, isDark, path }) => {
+    const navigate = useNavigate();
     // Icons are somewhat complex in the image (people with gears). 
     // I will use a simplified SVG representation of two people and an arrow.
 
@@ -31,10 +33,12 @@ const FeedbackCategoryCard = ({ title, description, isDark }) => {
             <h3 className={`text-lg font-bold mb-1 ${isDark ? 'text-white' : 'text-[#7c7891]'}`}>{title}</h3>
             <p className={`text-xs mb-8 ${isDark ? 'text-gray-300' : 'text-gray-400'}`}>{description}</p>
 
-            <button className={`w-full py-3 rounded-full font-bold text-sm transition-colors ${isDark
+            <button
+                onClick={() => path && navigate(path)}
+                className={`w-full py-3 rounded-full font-bold text-sm transition-colors ${isDark
                     ? 'bg-[#1e1b4b] text-white hover:bg-[#311b92] border border-white/20'
                     : 'bg-[#7c7891] text-white hover:bg-gray-600'
-                }`}>
+                    }`}>
                 Start Feedback
             </button>
         </div>

@@ -13,6 +13,8 @@ import UserSummaryPage from './pages/user/Summary/UserSummaryPage';
 import UserSummaryDetailPage from './pages/user/Summary/UserSummaryDetailPage';
 import UserDetailQuestionPage from './pages/user/Summary/UserDetailQuestionPage';
 import UserFeedbackPage from './pages/user/Feedback/UserFeedbackPage';
+import MentorToMentorFeedbackPage from './pages/user/Feedback/MentorToMentorFeedbackPage';
+import MentorToManagementFeedbackPage from './pages/user/Feedback/MentorToManagementFeedbackPage';
 
 // Admin Pages
 import DashboardPage from './pages/admin/DashboardPage';
@@ -32,7 +34,7 @@ function App() {
 
         {/* User Routes */}
         <Route path="/home" element={<HomePage />} />
-        <Route path="/feedback" element={<FeedbackPage />} />
+        {/* <Route path="/feedback" element={<FeedbackPage />} /> */}
         <Route path="/thank-you" element={<ThankYouPage />} />
 
         <Route path="/user/dashboard" element={<UserDashboardPage />} />
@@ -42,6 +44,10 @@ function App() {
         <Route path="/user/feedback" element={<UserFeedbackPage role="Mentor" />} />
 
         <Route path="/management/feedback" element={<UserFeedbackPage role="Management" />} />
+
+        {/* Specific Feedback Forms */}
+        <Route path="/feedback/mentor-to-mentor" element={<MentorToMentorFeedbackPage />} />
+        <Route path="/feedback/mentor-to-management" element={<MentorToManagementFeedbackPage />} />
 
         {/* Admin Routes */}
         <Route path="/admin/dashboard" element={<DashboardPage />} />
