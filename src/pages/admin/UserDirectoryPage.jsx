@@ -18,9 +18,13 @@ const UserDirectoryPage = () => {
         { id: 8, name: 'Reza Kurniawan, S.T.', role: 'Tech Web Development', username: 'Reza_Tech', email: 'reza.tech@example.com', division: 'Mentor', password: 'admin', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
     ];
 
+    const [users, setUsers] = useState(initialUsers);
+
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedUserId, setSelectedUserId] = useState(null);
 
     const filteredUsers = users.filter(user =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

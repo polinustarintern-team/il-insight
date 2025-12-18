@@ -63,6 +63,8 @@ const FormBuilderPage = () => {
     };
 
     // Publish (Simulate Backend Send)
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+
     const handlePublish = () => {
         const payload = {
             title,
@@ -70,7 +72,7 @@ const FormBuilderPage = () => {
             questions
         };
         console.log('Publishing Form to Backend:', JSON.stringify(payload, null, 2));
-        alert('Form Data ready! Check Console for JSON.');
+        setShowSuccessModal(true);
         // TODO: apiRequest('/forms', 'POST', payload);
     };
 
@@ -122,6 +124,36 @@ const FormBuilderPage = () => {
             >
                 +
             </button>
+
+            {/* Custom Success Modal */}
+            {showSuccessModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 transform transition-all scale-100">
+                        <div className="flex flex-col items-center text-center">
+                            {/* Success Icon */}
+                            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                                <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+
+                            <h3 className="text-2xl font-bold text-[#1e1b4b] mb-2">
+                                Published Successfully!
+                            </h3>
+                            <p className="text-gray-500 mb-8">
+                                Your form has been created and is ready to use.
+                            </p>
+
+                            <button
+                                onClick={() => setShowSuccessModal(false)}
+                                className="w-full bg-[#1e1b4b] text-white font-semibold py-3.5 rounded-xl hover:bg-[#2e1065] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-indigo-500/20"
+                            >
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </AdminLayout>
     );
 };

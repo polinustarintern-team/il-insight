@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../assets/images/logo-dark.png';
 
 const Sidebar = () => {
     const currentPath = window.location.pathname;
@@ -13,8 +14,12 @@ const Sidebar = () => {
     return (
         <aside className="w-64 bg-white h-screen flex flex-col border-r border-gray-100">
             <div className="p-6 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#1e1b4b] flex items-center justify-center text-white font-bold">Q</div>
-                <span className="font-bold text-xl text-[#1e1b4b]">ILInsight</span>
+                <div className="items-center justify-center"><img
+                            src={logo}
+                            alt="IL Insight"
+                            className="h-10 w-auto"
+                          /></div>
+                
             </div>
 
             <nav className="flex-1 px-4 mt-6">

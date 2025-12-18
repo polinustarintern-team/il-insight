@@ -1,11 +1,13 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
+import LoginPage from './pages/auth/LoginPage';
 import './assets/styles/global.css';
 
 // User Pages
-import HomePage from './pages/user/Home/HomePage';
-import FeedbackPage from './pages/user/Feedback/FeedbackPage';
-import ThankYouPage from './pages/user/ThankYou/ThankYouPage';
+import HomePage from './pages/Home/HomePage';
+import FeedbackPage from './pages/Feedback/FeedbackPage';
+import ThankYouPage from './pages/ThankYou/ThankYouPage';
 import UserDashboardPage from './pages/user/Dashboard/UserDashboardPage';
 import UserSummaryPage from './pages/user/Summary/UserSummaryPage';
 import UserSummaryDetailPage from './pages/user/Summary/UserSummaryDetailPage';
@@ -22,37 +24,37 @@ import FormBuilderPage from './pages/admin/FormBuilderPage';
 import UserDirectoryPage from './pages/admin/UserDirectoryPage';
 
 function App() {
-  const path = window.location.pathname;
-
-  // Simple routing logic (replace with react-router-dom in production)
-  let component;
-
-  // User Routes
-  if (path === '/') component = <HomePage />;
-  else if (path === '/feedback') component = <FeedbackPage />;
-  else if (path === '/thank-you') component = <ThankYouPage />;
-  else if (path === '/user/dashboard') component = <UserDashboardPage />;
-  else if (path === '/user/summary') component = <UserSummaryPage />;
-  else if (path === '/user/summary/detail') component = <UserSummaryDetailPage />;
-  else if (path === '/user/summary/detail/question') component = <UserDetailQuestionPage />;
-  else if (path === '/user/feedback') component = <UserFeedbackPage role="Mentor" />;
-  else if (path === '/management/feedback') component = <UserFeedbackPage role="Management" />;
-
-  // Admin Routes
-  else if (path === '/admin/dashboard') component = <DashboardPage />;
-  else if (path === '/admin/summary') component = <SummaryPage />;
-  else if (path === '/admin/summary/detail') component = <DetailAnalysisPage />;
-  else if (path === '/admin/create-question') component = <CreateQuestionPage />;
-  else if (path === '/admin/create-question/form') component = <CreateQuestionDetailPage />;
-  else if (path === '/admin/create-question/edit') component = <FormBuilderPage />;
-  else if (path === '/admin/user-directory') component = <UserDirectoryPage />;
-
-  // Default
-  else component = <HomePage />;
-
   return (
     <div className="App">
-      {component}
+      <Routes>
+        {/* Auth Route */}
+        <Route path="/" element={<LoginPage />} />
+
+        {/* User Routes */}
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/thank-you" element={<ThankYouPage />} />
+
+        <Route path="/user/dashboard" element={<UserDashboardPage />} />
+        <Route path="/user/summary" element={<UserSummaryPage />} />
+        <Route path="/user/summary/detail" element={<UserSummaryDetailPage />} />
+        <Route path="/user/summary/detail/question" element={<UserDetailQuestionPage />} />
+        <Route path="/user/feedback" element={<UserFeedbackPage role="Mentor" />} />
+
+        <Route path="/management/feedback" element={<UserFeedbackPage role="Management" />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin/dashboard" element={<DashboardPage />} />
+        <Route path="/admin/summary" element={<SummaryPage />} />
+        <Route path="/admin/summary/detail" element={<DetailAnalysisPage />} />
+        <Route path="/admin/create-question" element={<CreateQuestionPage />} />
+        <Route path="/admin/create-question/form" element={<CreateQuestionDetailPage />} />
+        <Route path="/admin/create-question/edit" element={<FormBuilderPage />} />
+        <Route path="/admin/user-directory" element={<UserDirectoryPage />} />
+
+        {/* Fallback */}
+        <Route path="*" element={<LoginPage />} />
+      </Routes>
     </div>
   );
 }
